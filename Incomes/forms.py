@@ -3,16 +3,16 @@ from .models import *
 
 class ResidentForm(forms.ModelForm):
     class Meta:
-        model = Resident
+        model = Residente
         fields = '__all__'
     
 class FeeForm(forms.ModelForm):
     class Meta:
-        model = Fee
-        fields = ('price','last_update', 'update_frequency')
+        model = Cuota
+        fields = ('precio','ultima_actualizacion', 'frecuencia_actualizaciones')
         
 class IncomeForm(forms.ModelForm):
     class Meta:
-        model = Income
-        fields = ('date','resident','income')
+        model = Ingreso
+        fields = ('fecha','residente','ingreso')
         

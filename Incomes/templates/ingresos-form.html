@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+
+{% block title %} Nuevo ingreso {% endblock title %}
+
+{% block content %}
+
+<h1>Nuevo ingreso</h1>
+
+<form action="POST">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+    <input type="submit" value="Cargar">
+</form>
+
+{% endblock content %}

@@ -2,6 +2,6 @@ from django.contrib import admin
 from .models import *
 
 # Register your models here.
-admin.site.register(Fee)
-admin.site.register(Income)
-admin.site.register(Resident)
+admin.site.register(Cuota)
+admin.site.register(Ingreso)
+admin.site.register(Residente)
