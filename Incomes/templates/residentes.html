@@ -1,0 +1,29 @@
+{% extends "./base.html" %}
+
+{% block title %} Residentes {% endblock title %}
+
+{% block content %}
+
+<h1>Residentes</h1>
+
+<a href=""><button>Agregar nuevo ➕</button></a>
+
+<table>
+    <tr>
+        <th>Residente</th>
+        <th>Cuota</th>
+        <th>Ultima actualizacion</th>
+        <th>Opciones</th>
+    </tr>
+    <tr>
+    {% for residente in residentes %}
+        <td>{{residente}}</td>
+        <td>{{residente.cuota.precio}}</td>
+        <td>{{residente.cuota.ultima_actualizacion}}</td>
+        <td><a href="actualizar/{{ residente.pk }}"><button>Actualizar 🛠</button></a><a href="eliminar/{{ residente.pk }}"><button>Eliminar 💀</button></a></td>
+    {% endfor %}
+    </tr>    
+
+</table>
+
+{% endblock content %}

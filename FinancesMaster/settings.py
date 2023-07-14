@@ -51,12 +51,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "FinancesMaster.urls"
+ROOT_URLCONF = "Incomes.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ['../FinancesMaster/templates'],
+        "DIRS": ['../Incomes/templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

@@ -1,0 +1,17 @@
+{% extends "./base.html" %}
+
+{% block title %} Residente {% endblock title %}
+
+{% block content %}
+
+<h1>Residente</h1>
+<p> {{ residente }} </p>
+<form action="POST">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+
+    <input type="submit" value="Cargar">
+</form>
+
+{% endblock content %}
