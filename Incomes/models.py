@@ -7,6 +7,7 @@ class Residente(models.Model):
     apellido = models.CharField(max_length=50)
     apodo = models.CharField(max_length=50, default="sin apodo")
     dni = models.IntegerField(unique=True) 
+    active = models.BooleanField(default=True)
     
     def __str__(self):
         return f"{self.apellido}, {self.nombre} ({self.apodo})"

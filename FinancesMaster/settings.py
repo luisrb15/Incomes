@@ -51,7 +51,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "Incomes.urls"
+ROOT_URLCONF = "FinancesMaster.urls"
 
 TEMPLATES = [
     {
