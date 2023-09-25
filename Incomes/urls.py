@@ -11,6 +11,4 @@ urlpatterns = [
     path('residentes/agregar', views.residente_agregar, name='residentes-crear'),
     path('residentes/eliminar/<id>', views.residentes_eliminar, name='residentes-eliminar'),
     path('residentes/cuota/<id>', views.cuota_crear, name='cuota-crear'),
-    path('ingreso-pdf/<id>', views.generar_pdf, name='ingreso-pdf'),
-    path('ingreso-pdf/<id>/recibo', views.recibo_crear, name='recibo-crear'),
 ]

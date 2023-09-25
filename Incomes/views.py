@@ -93,28 +93,4 @@ def cuota_crear(request, id):
     context = {'form': form, 'residente': residente}
     return render(request, 'cuota-form.html', context)
 
-@login_required
-def recibo_crear(request, id):
-    ingreso = Ingreso.objects.get(id=id)
-    dia = ingreso.fecha.day
-    mes = ingreso.fecha.month
-    mes_palabra = mes_a_palabra(ingreso.fecha.month)
-    anio = ingreso.fecha.year
-    letras = numero_a_letras(ingreso.ingreso)
-    residente = ingreso.residente
-    codigo = ingreso.pk
-    monto = "${:,.2f}".format(ingreso.ingreso)
-    context = {
-        'ingreso': ingreso , 
-        'dia' : dia , 
-        'mes' : mes, 
-        'mes_palabra' : mes_palabra , 
-        'anio' : anio, 
-        'letras' : letras, 
-        'residente' : residente,
-        'codigo' : codigo,
-        'monto' : monto,
-        }
-
-    return render(request, 'pdf.html', context)
 
