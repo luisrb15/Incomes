@@ -6,12 +6,11 @@
 
 <h1>Residente</h1>
 <p> {{ residente }} </p>
-<form action="POST">
+<form method="POST" action="{% url 'Incomes:residentes-crear' %}">
     {% csrf_token %}
     
     {{ form.as_p }}
-
-    <input type="submit" value="Cargar">
+    
+    <button type="submit" class="btn btn-success">Cargar</button>
 </form>
-
 {% endblock content %}

@@ -5,6 +5,13 @@
 {% block content %}
 
 <h1>Home</h1>
-<a href="ingresos/ingresos-form"><button>Registrar un ingreso 💰💵</button></a>
-<a href="ingresos/residentes"><button>Ver Residentes 👵 🧓 👴</button></a>
+
+<a href="{% url 'Incomes:ingresos_form' %}"><button>Registrar un ingreso 💰💵</button></a>
+<a href="{% url 'Incomes:residentes' %}"><button>Ver Residentes 👵 🧓 👴</button></a>
 {% endblock content %}
+
+{% block footer %}
+<script>
+    document.getElementById('back').remove();
+</script>
+{% endblock footer %}

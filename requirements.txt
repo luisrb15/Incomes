@@ -1,0 +1,3 @@
+reportlab
+secure-smtplib
+python-dotenv

@@ -6,24 +6,78 @@
 
 <h1>Residentes</h1>
 
-<a href="residente-form"><button>Agregar nuevo ➕</button></a>
+<!-- Modal de confirmación -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="mensajeModal">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <!-- Botón de confirmación en el modal -->
+                <button type="submit" class="btn btn-danger" href="eliminar/{{ residente.pk }}" >
+                    Si, deseo eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
-<table>
-    <tr>
-        <th>Residente</th>
-        <th>Cuota</th>
-        <th>Ultima actualizacion</th>
-        <th>Opciones</th>
-    </tr>
-    <tr>
-    {% for residente in residentes %}
-        <td>{{residente}}</td>
-        <td>{{residente.cuota.precio}}</td>
-        <td>{{residente.cuota.ultima_actualizacion}}</td>
-        <td><a href="actualizar/{{ residente.pk }}"><button>Actualizar 🛠</button></a><a href="eliminar/{{ residente.pk }}"><button>Eliminar 💀</button></a></td>
-    {% endfor %}
-    </tr>    
+<a name="" id="" class="btn btn-primary" href="{% url 'Incomes:residentes-crear' %}" role="button">Agregar nuevo ➕</a>
 
-</table>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Residente</th>
+                <th scope="col">Cuota</th>
+                <th scope="col">Ultima actualizacion</th>
+                <th scope="col">Acciones</th>
+
+            </tr>
+        </thead>
+        <tbody class="table-group-divider">
+            {% for residente in residentes %}
+            <tr class="">
+                <td scope="row">{{residente}}</td>
+                <td>{{residente.cuota.precio}}</td>
+                <td>{{residente.cuota.ultima_actualizacion}}</td>
+                <td>
+                    <a name="" id="" class="btn btn-warning" href="actualizar/{{ residente.pk }}" role="button">
+                        Actualizar 🛠
+                    </a>
+                    <a 
+                        name="" 
+                        id="" 
+                        class="btn btn-danger" 
+                        role="button"
+                        data-bs-toggle="modal" 
+                        data-bs-target="#confirmModal" 
+                        onclick="llenarModal('{{residente.apellido}}', '{{residente.nombre}}')">
+                        Eliminar 💀
+                    </a>
+                    <a name="" id="" class="btn btn-secondary" href="cuota/{{ residente.pk }}" role="button" >
+                        Modificar cuota
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function llenarModal(apellido, nombre){
+        
+
+        var mensaje = `Está a punto de eliminar a ${apellido}, ${nombre}. \n ESTA ACCION PUEDE SER REVERTIDA SOLO POR EL ADMINISTRADOR`
+    
+        document.getElementById('mensajeModal').textContent = mensaje;
+    }
+</script>
 
 {% endblock content %}

@@ -4,7 +4,8 @@ from .models import *
 class ResidentForm(forms.ModelForm):
     class Meta:
         model = Residente
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ('nombre', 'apellido' , 'apodo' , 'dni')
     
 class FeeForm(forms.ModelForm):
     class Meta:
@@ -14,5 +15,6 @@ class FeeForm(forms.ModelForm):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Ingreso
-        fields = ('fecha','residente','ingreso')
+        fields = ('fecha','residente','ingreso','mes','anio')
+
         

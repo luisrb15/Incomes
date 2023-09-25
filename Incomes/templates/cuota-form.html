@@ -1,0 +1,16 @@
+{% extends "./base.html" %}
+
+{% block title %} Cuota {% endblock title %}
+
+{% block content %}
+
+<h1>Cuota de {{ residente }}</h1>
+
+<form method="POST" action="{% url 'Incomes:cuota-crear' residente.id %}">
+    {% csrf_token %}
+    
+    {{ form.as_p }}
+    
+    <button type="submit" class="btn btn-success">Cargar</button>
+</form>
+{% endblock content %}
