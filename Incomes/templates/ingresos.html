@@ -1,10 +1,10 @@
 {% extends "./base.html" %}
 
-{% block title %} Residentes {% endblock title %}
+{% block title %} Ingresos {% endblock title %}
 
 {% block content %}
 
-<h1>Residentes</h1>
+<h1>Ingresos</h1>
 
 <!-- Modal de confirmación -->
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -19,7 +19,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <!-- Botón de confirmación en el modal -->
-                <button type="submit" class="btn btn-danger" href="eliminar/{{ residente.pk }}" >
+                <button type="submit" class="btn btn-danger" href="#" >
                     Si, deseo eliminar
                 </button>
             </div>
@@ -27,27 +27,29 @@
     </div>
 </div>
 
-<a name="" id="" class="btn btn-primary btn-sm" href="{% url 'Incomes:residentes-crear' %}" role="button">Agregar nuevo ➕</a>
+<a name="" id="" class="btn btn-primary btn-sm" href="{% url 'Incomes:ingresos_form' %}" role="button">Agregar nuevo ➕</a>
 
 <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>
             <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Mes de imputacion</th>
                 <th scope="col">Residente</th>
-                <th scope="col">Cuota</th>
-                <th scope="col">Ultima actualizacion</th>
+                <th scope="col">Ingreso</th>
                 <th scope="col">Acciones</th>
 
             </tr>
         </thead>
         <tbody class="table-group-divider">
-            {% for residente in residentes %}
+            {% for ingreso in ingresos %}
             <tr class="">
-                <td scope="row">{{residente}}</td>
-                <td>{{residente.cuota.precio}}</td>
-                <td>{{residente.cuota.ultima_actualizacion}}</td>
+                <td scope="row">{{ingreso.fecha}}</td>
+                <td>{{ingreso.mes}}/{{ingreso.anio}}</td>
+                <td>{{ingreso.residente.apellido}}, {{ingreso.residente.nombre}} ({{ingreso.residente.apodo}})</td>
+                <td id="moneda">{{ingreso.ingreso}}</td>
                 <td>
-                    <a name="" id="" class="btn btn-warning btn-sm" href="actualizar/{{ residente.pk }}" role="button">
+                    <a name="" id="" class="btn btn-warning btn-sm" href="#" role="button">
                         Actualizar 🛠
                     </a>
                     <a 
@@ -60,9 +62,6 @@
                         onclick="llenarModal('{{residente.apellido}}', '{{residente.nombre}}')">
                         Eliminar 💀
                     </a>
-                    <a name="" id="" class="btn btn-secondary btn-sm" href="cuota/{{ residente.pk }}" role="button" >
-                        Modificar cuota
-                    </a>
                 </td>
             </tr>
             {% endfor %}
@@ -71,11 +70,9 @@
 </div>
 
 <script>
-    function llenarModal(apellido, nombre){
-        
 
+    function llenarModal(apellido, nombre){
         var mensaje = `Está a punto de eliminar a ${apellido}, ${nombre}. \n ESTA ACCION PUEDE SER REVERTIDA SOLO POR EL ADMINISTRADOR`
-    
         document.getElementById('mensajeModal').textContent = mensaje;
     }
 </script>

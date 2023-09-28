@@ -35,7 +35,7 @@ class Ingreso(models.Model):
     fecha = models.DateField(default=datetime.now, verbose_name='Fecha')
     residente = models.ForeignKey(Residente, on_delete=models.CASCADE, verbose_name='Residente')
     ingreso = models.IntegerField(default="", verbose_name='Ingreso de dinero')
-    cuota = models.ForeignKey(Cuota, on_delete=models.CASCADE, verbose_name='Cuota')
+    # cuota = models.ForeignKey(Cuota, on_delete=models.CASCADE, verbose_name='Cuota')
     mes = models.IntegerField(
         default=current_month,
         validators=[
@@ -52,5 +52,5 @@ class Ingreso(models.Model):
         verbose_name='Año de imputacion')
 
     def __str__(self):
-        return f"{self.residente} {self.ingreso}"
-
+        monto = "${:,.2f}".format(self.ingreso)
+        return f"{self.residente} {monto}"

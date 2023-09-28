@@ -13,10 +13,20 @@
     
 </head>
 <body>
+    <style>
+        .container {
+            padding-left: 10%;
+            padding-right: 10%;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
-            <a class="nav-item nav-link" href="{% url 'Incomes:home' %}" id="home">Home</a>
+            <a class="nav-item nav-link" href="{% url 'Incomes:home' %}" id="home">Inicio</a>
             <a class="nav-item nav-link" href="{% url 'Incomes:residentes' %}">Residentes</a>
+            <a class="nav-item nav-link" href="{% url 'Incomes:ingresos' %}">Ingresos</a>
             {% if request.user.is_authenticated %}
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Salir</a>
             {% else %}
@@ -41,7 +51,7 @@
                 history.back();
             }
         </script>
-        <button onclick="volver()" id="back">Volver </button>
+        <button class="btn btn-light" onclick="volver()" id="back">Volver </button>
         {% endblock footer %}
     </footer>
         <!-- Bootstrap JavaScript Libraries -->

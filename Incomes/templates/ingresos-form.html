@@ -29,8 +29,6 @@
     </div>
 </div>
 
-
-<!-- Formulario (no es necesario hacer cambios aquí) -->
 <form method="POST" action="{% url 'Incomes:ingresos_form' %}" id="myForm">
     {% csrf_token %}
     {{ form.as_p }}

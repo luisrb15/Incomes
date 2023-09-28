@@ -1,0 +1,40 @@
+{% extends "./base.html" %}
+
+{% block title %} Ingresos restantes {% endblock title %}
+
+{% block content %}
+
+<h1>Ingresos restantes para mes {{mes}}</h1>
+
+<div class="table-responsive">
+    <table class="table table-striped
+    table-light
+    align-middle">
+        <thead class="table-light">
+            <caption>Ingresos restantes</caption>
+            <tr>
+                <th>Residente</th>
+                <th>Ingreso restante</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for dato_residente in datos_residentes %}
+                <tr class="table-light">
+                    <td scope="row">{{ dato_residente.residente.apellido }}, {{ dato_residente.residente.nombre }} ({{ dato_residente.residente.apodo }})</td>
+                    <td>{{ dato_residente.ingreso_restante }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-light">
+                    <td scope="row">Total</td>
+                    <td>{{ total }}</td>
+                </tr>
+            </tfoot>
+    </table>
+</div>
+
+
+
+
+{% endblock content %}

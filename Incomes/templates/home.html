@@ -1,13 +1,21 @@
 {% extends "./base.html" %}
 
-{% block title %} Home {% endblock title %}
+{% block title %} Inicio {% endblock title %}
 
 {% block content %}
 
-<h1>Home</h1>
+<style>
+    .homeButtons {
+        display: flex;
+        justify-content:space-around;
+    }
+</style>
 
-<a href="{% url 'Incomes:ingresos_form' %}"><button>Registrar un ingreso 💰💵</button></a>
-<a href="{% url 'Incomes:residentes' %}"><button>Ver Residentes 👵 🧓 👴</button></a>
+<h1>Inicio</h1>
+<div class="homeButtons">
+    <a href="{% url 'Incomes:ingresos_form' %}"><button class="btn btn-light">Registrar un ingreso 💰💵</button></a>
+    <a href="{% url 'Incomes:residentes' %}"><button class="btn btn-light">Ver Residentes 👵 🧓 👴</button></a>
+</div>
 {% endblock content %}
 
 {% block footer %}
