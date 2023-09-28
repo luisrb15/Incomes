@@ -26,7 +26,15 @@
         <div class="nav navbar-nav">
             <a class="nav-item nav-link" href="{% url 'Incomes:home' %}" id="home">Inicio</a>
             <a class="nav-item nav-link" href="{% url 'Incomes:residentes' %}">Residentes</a>
-            <a class="nav-item nav-link" href="{% url 'Incomes:ingresos' %}">Ingresos</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Ingresos
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{% url 'Incomes:ingresos' %}">Lista de ingresos</a></li>
+                    <li><a class="dropdown-item" href="{% url 'Incomes:ingresos-restantes' %}">Ingresos restantes</a></li>
+                </ul>
+            </li>
             {% if request.user.is_authenticated %}
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Salir</a>
             {% else %}
