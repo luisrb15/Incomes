@@ -9,7 +9,7 @@
 <form method="POST" action="{% url 'Incomes:residentes-crear' %}">
     {% csrf_token %}
     
-    {{ form.as_p }}
+    {{ form.as_div }}
     
     <button type="submit" class="btn btn-success">Cargar</button>
 </form>

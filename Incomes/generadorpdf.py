@@ -115,7 +115,7 @@ def generar_pdf(ingreso, fecha, mes_imputacion, anio_imputacion):
     nuevo_h = restar_h(nuevo_h, 70)
     p.drawImage('Incomes/static/img/firma.png', 430, nuevo_h, width=122, height=80)
     nuevo_h = restar_h(nuevo_h, 5)
-    p.drawRightString(w - 50, nuevo_h,'Flavia Micaela Melera')
+    p.drawRightString(w - 60, nuevo_h,'Flavia Micaela Melera')
 
     # Cierra el PDF
     p.showPage()
