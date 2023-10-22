@@ -8,7 +8,8 @@ def enviar_email_con_pdf_residente(ingreso, pdf):
     # Convierte el objeto BytesIO en bytes
     pdf_bytes = pdf.getvalue()
 
-    monto = "${:,.2f}".format(ingreso.ingreso)
+    monto = ingreso.monto
+    # monto = "${:,.2f}".format(ingreso.ingreso)
 
     # Crea el mensaje de correo
     message = EmailMessage(

@@ -6,11 +6,62 @@
 
 <h1>Cuota de {{ residente }}</h1>
 
-<form method="POST" action="{% url 'Incomes:cuota-crear' residente.id %}">
-    {% csrf_token %}
-    
-    {{ form.as_p }}
-    
-    <button type="submit" class="btn btn-success">Cargar</button>
-</form>
+<div class="container">
+    <form method="POST" id="myForm" action="{% url 'Incomes:cuota-crear' residente.id %}">
+        {% csrf_token %}
+        
+        <!-- campos: precio, ultima_actualizacion, frecuencia_actualizaciones -->
+        <div class="row">
+            <div class="col-4">
+                <label for="precio" class="form-label">Precio:</label>
+            </div>
+            <div class="col-4">
+                <input type="number" class="form-control" id="precio" name="precio" value="{{ cuota.precio }}">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-4">
+                <label for="ultima_actualizacion" class="form-label">Última actualización:</label>
+            </div>
+            <div class="col-4">
+                <input type="date" class="form-control" id="ultima_actualizacion" name="ultima_actualizacion" value="{{ cuota.ultima_actualizacion|date:'Y-m-d' }}">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-4">
+                <label for="frecuencia_actualizaciones" class="form-label">Frecuencia de actualizaciones:</label>
+            </div>
+            <div class="col-4">
+                <input type="number" class="form-control" id="frecuencia_actualizaciones" name="frecuencia_actualizaciones" value="{{ cuota.frecuencia_actualizaciones }}">
+            </div>
+        </div><br>
+        <button type="submit" class="btn btn-success">Cargar</button>
+    </form>
+</div>
+
+<!-- <script>
+    const formatter = new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency : 'ARS',
+    });
+    function formatear(input) {
+          if (input.value !== '') {
+            var monto = parseFloat(input.value.replace(/[^0-9.-]+/g, "")); // Eliminar caracteres no numéricos
+            input.value = formatter.format(monto);
+    }};
+
+    function volverAFormato(){    
+        var montoField = document.getElementById('monto');
+        var montoValue = parseFloat(montoField.value.replace(/[^0-9.-]+/g, '').replace('.', ''))/100;
+        montoField.value = montoValue;
+    }
+
+    function submitForm() {
+        volverAFormato();
+        console.log('submitForm')
+        document.getElementById('myForm').submit();
+    }    
+
+</script> -->
+
 {% endblock content %}

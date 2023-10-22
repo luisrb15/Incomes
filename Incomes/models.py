@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import datetime
 
-# Create your models here.
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 current_year = datetime.now().year
@@ -13,7 +12,6 @@ class Residente(models.Model):
     apodo = models.CharField(max_length=50, default="sin apodo", verbose_name='Apodo')
     dni = models.IntegerField(default=00000000, verbose_name='Dni')
     email = models.EmailField(default='laflordelbambuapp@gmail.com', verbose_name='Email')
-    # dni = models.IntegerField(unique=True) 
     active = models.BooleanField(default=True)
     
     def __str__(self):
@@ -34,8 +32,7 @@ class Cuota(models.Model):
 class Ingreso(models.Model):
     fecha = models.DateField(default=datetime.now, verbose_name='Fecha')
     residente = models.ForeignKey(Residente, on_delete=models.CASCADE, verbose_name='Residente')
-    ingreso = models.IntegerField(default="", verbose_name='Ingreso de dinero')
-    # cuota = models.ForeignKey(Cuota, on_delete=models.CASCADE, verbose_name='Cuota')
+    monto = models.IntegerField(default="", verbose_name='Ingreso de dinero')
     mes = models.IntegerField(
         default=current_month,
         validators=[
@@ -52,5 +49,5 @@ class Ingreso(models.Model):
         verbose_name='Año de imputacion')
 
     def __str__(self):
-        monto = "${:,.2f}".format(self.ingreso)
+        monto = "${:,.2f}".format(self.monto)
         return f"{self.residente} {monto}"

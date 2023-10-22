@@ -19,7 +19,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <!-- Botón de confirmación en el modal -->
-                <button type="submit" class="btn btn-danger" href="eliminar/{{ residente.pk }}" >
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal" data-href="eliminar/{{ residente.pk }}" >
                     Si, deseo eliminar
                 </button>
             </div>
@@ -44,8 +44,8 @@
             {% for residente in residentes %}
             <tr class="">
                 <td scope="row">{{residente}}</td>
-                <td>{{residente.cuota.precio}}</td>
-                <td>{{residente.cuota.ultima_actualizacion}}</td>
+                <td class="monto">{{residente.cuota.precio}}</td>
+                <td>{{residente.cuota.ultima_actualizacion|date:'d-m-Y'}}</td>
                 <td>
                     <a name="" id="" class="btn btn-warning btn-sm" href="actualizar/{{ residente.pk }}" role="button">
                         Actualizar 🛠
@@ -71,11 +71,25 @@
 </div>
 
 <script>
-    function llenarModal(apellido, nombre){
-        
+    function formatMonto() {
+        const formatter = new Intl.NumberFormat('es-AR', {
+            style: 'currency',
+            currency: 'ARS'
+        });
 
-        var mensaje = `Está a punto de eliminar a ${apellido}, ${nombre}. \n ESTA ACCION PUEDE SER REVERTIDA SOLO POR EL ADMINISTRADOR`
-    
+        const montoElements = document.querySelectorAll('.monto');
+
+        montoElements.forEach(function (element) {
+            const montoValue = parseFloat(element.textContent);
+            element.textContent = formatter.format(montoValue);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', formatMonto);
+
+
+    function llenarModal(apellido, nombre){
+        var mensaje = `Está a punto de eliminar a ${apellido}, ${nombre}. \n ESTA ACCION PUEDE SER REVERTIDA SOLO POR EL ADMINISTRADOR`;
         document.getElementById('mensajeModal').textContent = mensaje;
     }
 </script>

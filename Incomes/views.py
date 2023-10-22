@@ -7,8 +7,9 @@ from .generadorpdf import generar_pdf
 from .enviarmail import enviar_email_con_pdf_residente
 from .numeros_a_letras import numero_a_letras
 from .mes_a_palabra import mes_a_palabra
+from datetime import date
 
-# Create your views here.
+hoy = date.today()
 
 @login_required
 def home(request):  
@@ -16,29 +17,28 @@ def home(request):
 
 @login_required
 def ingresos_form(request):
-    print(request.POST.get('fecha'))
     if request.method == 'POST':
-        form = IncomeForm(request.POST)
-        if form.is_valid():
-            residente_id = request.POST.get('residente')
-            fecha = request.POST.get('fecha')
-            mes_imputacion = request.POST.get('mes')
-            anio_imputacion = request.POST.get('anio')
-            cuota = Cuota.objects.get(residente_id=residente_id)
-            form.instance.cuota = cuota
-            form.save()
-            ingreso = Ingreso.objects.last()
-            pdf = generar_pdf(ingreso, fecha, mes_imputacion, anio_imputacion)
-            enviar_email_con_pdf_residente(ingreso, pdf)
-            response = HttpResponse(pdf, content_type='application/pdf')
-            response['Content-Disposition'] = f'attachment; filename={ingreso.residente.apellido}_{ingreso.residente.nombre}_{ingreso.fecha}.pdf'
-            
-            return redirect('Incomes:home')
-    else:
-        form = IncomeForm() 
-        form.fields['residente'].queryset = Residente.objects.filter(active=True)        
-
-    context = {'form': form}
+        residente_id = request.POST.get('residente')
+        fecha = request.POST.get('fecha')
+        monto = request.POST.get('monto')
+        mes_imputacion = request.POST.get('mes')
+        anio_imputacion = request.POST.get('anio')
+        print('residente_id', residente_id, '\nfecha', fecha, '\nmonto', monto, '\nmes_imputacion', mes_imputacion, '\nanio_imputacion', anio_imputacion)
+        ingreso = Ingreso.objects.create(fecha=fecha, residente_id=residente_id, monto=monto, mes=mes_imputacion, anio=anio_imputacion) 
+        pdf = generar_pdf(ingreso, fecha, mes_imputacion, anio_imputacion)
+        enviar_email_con_pdf_residente(ingreso, pdf)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = f'attachment; filename={ingreso.residente.apellido}_{ingreso.residente.nombre}_{ingreso.fecha}.pdf'
+        
+        return redirect('Incomes:home')
+    residente_lista = Residente.objects.filter(active=True)
+    print(residente_lista) 
+    context = {
+        'residentes': residente_lista,
+        'hoy' : hoy,
+        'mes' : hoy.month,
+        'anio' : hoy.year,
+        }
     return render(request, 'ingresos-form.html', context)
 
 @login_required
@@ -49,24 +49,30 @@ def residentes(request):
 
 @login_required
 def residente_agregar(request):
-    form = ResidentForm(request.POST)
-    context = {'form' : form }
-    if form.is_valid() and request.method == 'POST':
-        form.save()
+    if  request.method == 'POST':
+        residente = Residente()
+        residente.nombre = request.POST.get('nombre')
+        residente.apellido = request.POST.get('apellido')
+        residente.apodo = request.POST.get('apodo')
+        residente.dni = request.POST.get('dni')
+        residente.email = request.POST.get('email')
+        residente.save()
         return redirect('Incomes:residentes')   
-    return render(request, 'residente-form.html', context)
+    return render(request, 'residente-form.html')
 
 @login_required
 def residentes_modificar(request, id):
     residente = get_object_or_404(Residente, id=id)
+    print(residente)
     if request.method == 'POST':
-        form = ResidentForm(request.POST, instance=residente)
-        if form.is_valid():
-            form.save()
-            return redirect('Incomes:residentes')  # Redirige a la lista de residentes después de guardar
-    else:
-        form = ResidentForm(instance=residente)  
-    context = {'form': form, 'residente': residente}
+        residente.nombre = request.POST.get('nombre')
+        residente.apellido = request.POST.get('apellido')
+        residente.apodo = request.POST.get('apodo')
+        residente.dni = request.POST.get('dni')
+        residente.email = request.POST.get('email')
+        residente.save()
+        return redirect('Incomes:residentes')  # Redirige a la lista de residentes después de guardar
+    context = {'residente': residente}
     return render(request, 'residente-form.html', context)
 
 @login_required
@@ -94,7 +100,7 @@ def cuota_crear(request, id):
             cuota.save()
             return redirect('Incomes:residentes')
 
-    context = {'form': form, 'residente': residente}
+    context = {'hoy': hoy , 'residente': residente, 'cuota': cuota}
     return render(request, 'cuota-form.html', context)
 
 @login_required
@@ -113,8 +119,8 @@ def ingresos_restantes(request):
         cuota = Cuota.objects.get(residente=residente)
 
         # Calcular la suma de los ingresos del residente para el mes actual
-        ingresos_del_residente = Ingreso.objects.filter(residente=residente, mes=mes_actual).values('ingreso')
-        total_ingresos = sum(ingreso['ingreso'] for ingreso in ingresos_del_residente)
+        ingresos_del_residente = Ingreso.objects.filter(residente=residente, mes=mes_actual).values('monto')
+        total_ingresos = sum(ingreso['monto'] for ingreso in ingresos_del_residente)
 
         # Calcular el monto restante
         monto_restante = cuota.precio - total_ingresos

@@ -17,8 +17,8 @@ def restar_h(nuevo_h, resta):
 
 def evaluar_cuota_restante(ingreso):
     residente = ingreso.residente
-    mes = ingreso.fecha.month
-    ingresos_del_residente = Ingreso.objects.filter(residente=residente, mes=mes).aggregate(total_ingresos=Sum('ingreso'))
+    mes = ingreso.mes
+    ingresos_del_residente = Ingreso.objects.filter(residente=residente, mes=mes).aggregate(total_ingresos=Sum('monto'))
     cuota = Cuota.objects.get(residente=residente)
     
     # Comprobar si existen ingresos para el residente
@@ -74,11 +74,13 @@ def generar_pdf(ingreso, fecha, mes_imputacion, anio_imputacion):
     dia = int(fecha[-2:])
     mes = int(fecha[-5:-3])
     anio = int(fecha[:-6])
+    print(f'dia: {dia}, mes: {mes}, anio: {anio}')
     mes_palabra = mes_a_palabra(mes)
-    letras = numero_a_letras(ingreso.ingreso)
+    letras = numero_a_letras(int(ingreso.monto))
     residente = ingreso.residente
     codigo = ingreso.pk
-    monto = "${:,.2f}".format(ingreso.ingreso)
+    # monto = ingreso.monto
+    monto = "${:,.2f}".format(int(ingreso.monto))
     cuota_restante = evaluar_cuota_restante(ingreso)
 
     nuevo_h = h  # Restablece la variable nuevo_h

@@ -15,6 +15,6 @@ class FeeForm(forms.ModelForm):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Ingreso
-        fields = ('fecha','residente','ingreso','mes','anio')
+        fields = ('fecha','residente','monto','mes','anio')
 
         

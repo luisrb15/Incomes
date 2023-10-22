@@ -29,14 +29,58 @@
     </div>
 </div>
 
-<form method="POST" action="{% url 'Incomes:ingresos_form' %}" id="myForm">
+<div class="container">
+    <form action="{% url 'Incomes:ingresos_form' %}" method="post" id="myForm">
     {% csrf_token %}
-    {{ form.as_p }}
-    <!-- Botón para abrir el modal de confirmación -->
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal" onclick="llenarModal()">
-        Cargar
-    </button>
-</form>
+        <div class="row">
+            <div class="col-2">
+                <label for="fecha" class="form-label">Fecha:</label>
+            </div>
+            <div class="col-8">
+                <input type="date" class="form-control" id="fecha" name="fecha" value="{{ fecha|default:hoy|date:'Y-m-d' }}" >
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2">
+                <label for="residente" class="form-label">Residente:</label>
+            </div>
+            <div class="col-8">
+                <select class="form-select" id="residente" name="residente">
+                    {% for residente in residentes %}
+                    <option value="{{ residente.pk }}">{{residente}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2">
+                <label for="monto" class="form-label">Monto:</label>
+            </div>
+            <div class="col-8">
+                <input type="text" class="form-control" id="monto" name="monto" onblur="formatear(this)">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2">
+                <label for="mes" class="form-label">Mes:</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" id="mes" name="mes" type="number" value="{{ mes }}">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2">
+                <label for="anio" class="form-label">Año:</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" id="anio" name="anio" type="number" value="{{ anio }}">
+            </div>
+        </div><br>
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal" onclick="llenarModal()">
+            Cargar
+        </button>
+    </form>
+</div>
 
 <!-- Script para enviar el formulario cuando se hace clic en el botón "Confirmar" en el modal -->
 <script>
@@ -47,34 +91,43 @@ function submitForm() {
     // Deshabilitar el botón de confirmación para evitar envíos múltiples
     document.querySelector('.btn-success').setAttribute('disabled', 'true');
     
+    var montoField = document.getElementById('monto');
+    var montoValue = parseFloat(montoField.value.replace(/[^0-9.-]+/g, '').replace('.', ''))/100;
+    montoField.value = montoValue;
     // Enviar el formulario
     document.getElementById('myForm').submit();
 }
 </script>
 
 <script>
-    const formatter = new Intl.NumberFormat('en-US', {
+    const formatter = new Intl.NumberFormat('es-AR', {
         style: 'currency',
-        currency : 'USD',
+        currency : 'ARS',
     }
     )
+    
+    function formatear(input) {
+    if (input.value !== '') {
+        var monto = parseFloat(input.value.replace(/[^0-9.-]+/g, "")); // Eliminar caracteres no numéricos
+        input.value = formatter.format(monto);
+    }}
 
     function llenarModal() {
         // Obtener los valores de los campos del formulario
-        var fecha = document.getElementById('id_fecha').value;
-        var residente = document.getElementById('id_residente').options[document.getElementById('id_residente').selectedIndex].text;
-        var ingreso = formatter.format(document.getElementById('id_ingreso').value);
-        var mes = document.getElementById('id_mes').value;
-        var anio = document.getElementById('id_anio').value;
+        var fecha = document.getElementById('fecha').value;
+        var residente = document.getElementById('residente').options[document.getElementById('residente').selectedIndex].text;
+        var monto = document.getElementById('monto').value;
+        var mes = document.getElementById('mes').value;
+        var anio = document.getElementById('anio').value;
         console.log(mes);
         // Construir el mensaje del modal
-        var mensaje = `Vas a generar un recibo a nombre de ${residente} por el valor de ${ingreso} con fecha ${fecha} que se imputará el mes ${mes} del año ${anio}`;
-    
+        var mensaje = `Vas a generar un recibo a nombre de ${residente} por el valor de ${monto} con fecha ${fecha} que se imputará el mes ${mes} del año ${anio}`;
+        
         // Actualizar el contenido del mensaje en el modal
         document.getElementById('mensajeModal').textContent = mensaje;
     }
 
     </script>
     
-
-{% endblock content %}
+    
+    {% endblock content %}

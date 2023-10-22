@@ -6,11 +6,56 @@
 
 <h1>Residente</h1>
 <p> {{ residente }} </p>
-<form method="POST" action="{% url 'Incomes:residentes-crear' %}">
-    {% csrf_token %}
-    
-    {{ form.as_div }}
-    
-    <button type="submit" class="btn btn-success">Cargar</button>
-</form>
+<div class="container">
+    {% if residente %}
+    <form method="POST" action="{% url 'Incomes:residentes-actualizar' residente.id %}">
+    {% else %}
+    <form method="POST" action="{% url 'Incomes:residentes-crear' %}">
+    {% endif %}
+        {% csrf_token %}
+        
+        <!-- campos: nombre, apellido, apodo, dni -->
+        <div class="row">
+            <div class="col-2"> 
+                <label class="form-label" for="nombre">Nombre:</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" type="text" name="nombre" id="nombre" value="{{ residente.nombre }}" placeholder="Nombre">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2"> 
+                <label class="form-label" for="apellido">Apellido:</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" type="text" name="apellido" id="apellido" value="{{ residente.apellido }}" placeholder="Apellido">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2"> 
+                <label class="form-label" for="apodo">Apodo:</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" type="text" name="apodo" id="apodo" value="{{ residente.apodo }}" placeholder="Apodo">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2"> 
+                <label class="form-label" for="dni">DNI:</label>
+            </div>
+            <div class="col-8">
+                <input class="form-control" type="number" name="dni" id="dni" value="{{ residente.dni }}" placeholder="DNI">
+            </div>
+        </div><br>
+        <div class="row">
+            <div class="col-2">
+                <label for="email" class="form-label">Email:</label>
+            </div>
+            <div class="col-8">
+                <input type="email" class="form-control" id="email" name="email" value="{{ residente.email }}" placeholder="Email">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Cargar</button>
+    </form>
+</div>
 {% endblock content %}

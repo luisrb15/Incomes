@@ -44,10 +44,10 @@
         <tbody class="table-group-divider">
             {% for ingreso in ingresos %}
             <tr class="">
-                <td scope="row">{{ingreso.fecha}}</td>
+                <td scope="row">{{ingreso.fecha|date:'d-m-Y'}}</td>
                 <td>{{ingreso.mes}}/{{ingreso.anio}}</td>
                 <td>{{ingreso.residente.apellido}}, {{ingreso.residente.nombre}} ({{ingreso.residente.apodo}})</td>
-                <td id="moneda">{{ingreso.ingreso}}</td>
+                <td class="monto">{{ingreso.monto}}</td>
                 <td>
                     <a name="" id="" class="btn btn-warning btn-sm" href="#" role="button">
                         Actualizar 🛠
@@ -70,6 +70,21 @@
 </div>
 
 <script>
+    function formatMonto() {
+        const formatter = new Intl.NumberFormat('es-AR', {
+            style: 'currency',
+            currency: 'ARS'
+        });
+
+    const montoElements = document.querySelectorAll('.monto');
+
+        montoElements.forEach(function (element) {
+            const montoValue = parseFloat(element.textContent);
+            element.textContent = formatter.format(montoValue);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', formatMonto);
 
     function llenarModal(apellido, nombre){
         var mensaje = `Está a punto de eliminar a ${apellido}, ${nombre}. \n ESTA ACCION PUEDE SER REVERTIDA SOLO POR EL ADMINISTRADOR`
